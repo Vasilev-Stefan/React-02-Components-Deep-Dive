@@ -5,6 +5,5 @@ import '../src/index.css'
 createRoot(document.getElementById('root')).render(
     <div>
         <App />
-        <App />
     </div>
 )
