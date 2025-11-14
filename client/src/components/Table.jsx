@@ -58,6 +58,8 @@ export function Table() {
           </thead>
           <tbody>
             <UserList />
+            <UserList />
+            <UserList />
           </tbody>
         </table>
     )
