@@ -4,9 +4,11 @@ import { Header } from "./components/Header.jsx";
 import { Pagination } from "./components/Pagination.jsx";
 import { Search } from "./components/Search.jsx";
 import { Table } from "./components/Table.jsx";
+import { CreateUser } from "./components/CreateUser.jsx";
 
 function App() {
   const [users, setUsers] = useState([])
+  const [createUser, setCreateUser] = useState(false)
 
   useEffect(() => {
     fetch('http://localhost:3030/jsonstore/users')
@@ -14,6 +16,10 @@ function App() {
     .then(result => setUsers(Object.values(result)))
     .catch(err => alert(err.message))
   }, [])
+
+  const createUserHandle = () => {
+    setCreateUser(state => !state)
+  }
 
   return (
     <>
@@ -24,11 +30,13 @@ function App() {
 
           <Table data={users} />
 
-          <button className="btn-add btn">Add new user</button>
+          <button className="btn-add btn" onClick={createUserHandle}>Add new user</button>
           <Pagination />
         </section>
       </main>
       <Footer />
+
+      {createUser && <CreateUser createUserHandle={createUserHandle}/>}
     </>
   )
 }
