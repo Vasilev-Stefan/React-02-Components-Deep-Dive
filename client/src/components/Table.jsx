@@ -1,8 +1,7 @@
 import { UserList } from "./UserList.jsx";
 
-export function Table(props) {
-    const users = props.data
-    console.log(users)
+export function Table({data, onDetails}) {
+    const users = data
     return (
         <table className="table">
           <thead>
@@ -59,7 +58,7 @@ export function Table(props) {
             </tr>
           </thead>
           <tbody>
-            {users.map(user => <UserList key={user.phoneNumber} {...user}/>)}
+            {users.map(user => <UserList  key={user._id}  {...user} onDetails={onDetails}/>)}
           </tbody>
         </table>
     )
