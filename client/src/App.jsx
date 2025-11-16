@@ -15,7 +15,7 @@ function App() {
     .then(response => response.json())
     .then(result => setUsers(Object.values(result)))
     .catch(err => alert(err.message))
-  }, [])
+  }, [createUser])
 
   const createUserHandle = () => {
     setCreateUser(state => !state)

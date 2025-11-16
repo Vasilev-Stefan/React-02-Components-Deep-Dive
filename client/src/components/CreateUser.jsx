@@ -14,14 +14,18 @@ export function CreateUser({createUserHandle}) {
             return;
         }
 
-        console.log(data)
-        fetch('http://localhost:3030/jsonstore/users', {
-            method: 'post',
-            headers: {
-                "Content-Type": 'application/json'       
-            },
-            body: JSON.stringify(data)
-        })
+        try {
+            fetch('http://localhost:3030/jsonstore/users', {
+                method: 'post',
+                headers: {
+                    "Content-Type": 'application/json'       
+                },
+                body: JSON.stringify(data)
+            })
+            createUserHandle()
+        } catch (error) {
+            alert(error.message)
+        }
     }
 
     return (
