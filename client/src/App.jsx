@@ -27,7 +27,37 @@ function App() {
       .catch(err => alert(err.message))
   }, [createUser, forceReset])
 
-  const editUserModal = () => {
+  const saveEditUser = async (event) => {
+    event.preventDefault()
+    const id = selectedUser._id
+    console.log(id)
+    const formdata = new FormData(event.target)
+    const {country, city, street, streetNumber, ...data} = Object.fromEntries(formdata)
+    data.address = {country, city, street, streetNumber}
+    data.updatedAt = new Date().toISOString()
+    console.log(data)
+    try {
+      await fetch(`http://localhost:3030/jsonstore/users/${id}`, {
+        method: 'PATCH',
+        headers:{
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      setSelectedUser({})
+      editUserModal()
+      setForceRefresh(state => !state)
+    } catch (error) {
+      alert(error.message)
+    }
+  }
+
+  const editUserModal = async (event, id) => {
+    if(id){
+      const response = await fetch(`http://localhost:3030/jsonstore/users/${id}`)
+      const result = await response.json()
+      setSelectedUser(result)
+    }
     setEditUser(state => !state)
   }
 
@@ -96,7 +126,7 @@ function App() {
       {createUser && <CreateUser createUserHandle={createUserHandle} />}
       {detailUser && <DetailsUser onClose={detailsUserHandle} {...selectedUser}/>}
       {deleteUser && <DeleteUser onClose={deleteUserHandle} onDelete={onDeleteConfirmed}/>}
-      {editUser && <EditUser onClose={editUserModal}/>}
+      {editUser && <EditUser onClose={editUserModal} onSave={saveEditUser} user={selectedUser}/>}
     </>
   )
 }
