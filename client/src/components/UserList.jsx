@@ -11,7 +11,8 @@ export function UserList({
     updatedAt,
     _id,
     onDetails,
-    onDelete
+    onDelete,
+    onEdit
 }) {
 
 
@@ -31,7 +32,7 @@ export function UserList({
             <td>{formatDate(createdAt)}</td>
 
             <td className="actions">
-                <button className="btn edit-btn" title="Edit">
+                <button className="btn edit-btn" title="Edit" onClick={() => onEdit(event, _id)}>
                     <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="pen-to-square"
                         className="svg-inline--fa fa-pen-to-square" role="img" xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 532 512">

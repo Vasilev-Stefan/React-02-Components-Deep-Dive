@@ -7,6 +7,7 @@ import { Table } from "./components/Table.jsx";
 import { CreateUser } from "./components/CreateUser.jsx";
 import { DetailsUser } from "./components/DetailsUser.jsx";
 import { DeleteUser } from "./components/DeleteUser.jsx";
+import { EditUser } from "./components/EditUser.jsx";
 
 
 
@@ -17,6 +18,7 @@ function App() {
   const [selectedUser, setSelectedUser] = useState({})
   const [deleteUser, setDeleteUser] = useState(false)
   const [forceReset, setForceRefresh] = useState(false)
+  const [editUser, setEditUser] = useState(false)
 
   useEffect(() => {
     fetch('http://localhost:3030/jsonstore/users')
@@ -24,6 +26,10 @@ function App() {
       .then(result => setUsers(Object.values(result)))
       .catch(err => alert(err.message))
   }, [createUser, forceReset])
+
+  const editUserModal = () => {
+    setEditUser(state => !state)
+  }
 
   const createUserHandle = () => {
     setCreateUser(state => !state)
@@ -79,7 +85,7 @@ function App() {
         <section className="card users-container">
           <Search />
 
-          <Table data={users} onDetails={detailsUserHandle} onDelete={deleteUserHandle} />
+          <Table data={users} onDetails={detailsUserHandle} onDelete={deleteUserHandle} onEdit={editUserModal} />
 
           <button className="btn-add btn" onClick={createUserHandle}>Add new user</button>
           <Pagination />
@@ -90,6 +96,7 @@ function App() {
       {createUser && <CreateUser createUserHandle={createUserHandle} />}
       {detailUser && <DetailsUser onClose={detailsUserHandle} {...selectedUser}/>}
       {deleteUser && <DeleteUser onClose={deleteUserHandle} onDelete={onDeleteConfirmed}/>}
+      {editUser && <EditUser onClose={editUserModal}/>}
     </>
   )
 }
