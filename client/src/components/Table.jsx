@@ -1,6 +1,6 @@
 import { UserList } from "./UserList.jsx";
 
-export function Table({data, onDetails}) {
+export function Table({data, onDetails, onDelete}) {
     const users = data
     return (
         <table className="table">
@@ -58,7 +58,7 @@ export function Table({data, onDetails}) {
             </tr>
           </thead>
           <tbody>
-            {users.map(user => <UserList  key={user._id}  {...user} onDetails={onDetails}/>)}
+            {users.map(user => <UserList  key={user._id}  {...user} onDetails={onDetails} onDelete={onDelete}/>)}
           </tbody>
         </table>
     )
