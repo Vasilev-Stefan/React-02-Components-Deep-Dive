@@ -13,6 +13,7 @@ import { EditUser } from "./components/EditUser.jsx";
 
 function App() {
   const [users, setUsers] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
   const [createUser, setCreateUser] = useState(false)
   const [detailUser, setDetailUser] = useState(false)
   const [selectedUser, setSelectedUser] = useState({})
@@ -21,10 +22,12 @@ function App() {
   const [editUser, setEditUser] = useState(false)
 
   useEffect(() => {
+    setIsLoading(true)
     fetch('http://localhost:3030/jsonstore/users')
       .then(response => response.json())
       .then(result => setUsers(Object.values(result)))
       .catch(err => alert(err.message))
+      .finally(() => setIsLoading(false))
   }, [createUser, forceReset])
 
   const saveEditUser = async (event) => {
@@ -114,9 +117,7 @@ function App() {
       <main className="main">
         <section className="card users-container">
           <Search />
-
-          <Table data={users} onDetails={detailsUserHandle} onDelete={deleteUserHandle} onEdit={editUserModal} />
-
+            <Table loading={isLoading} data={users} onDetails={detailsUserHandle} onDelete={deleteUserHandle} onEdit={editUserModal} />
           <button className="btn-add btn" onClick={createUserHandle}>Add new user</button>
           <Pagination />
         </section>
